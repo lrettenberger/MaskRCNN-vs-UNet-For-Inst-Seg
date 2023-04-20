@@ -1,0 +1,8 @@
+base_training
+82.32, 2.92 
+top_80_training
+81.39, 4.32 
+top_80_training_patched
+67.22, 8.19 
+base_training_patched
+68.02, 9.50 

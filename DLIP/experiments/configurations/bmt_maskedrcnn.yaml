@@ -1,0 +1,151 @@
+# Seed of this experiment to ensure reproducibility.
+root_dir_base:
+  value: bin_5
+
+experiment.seed:
+  value: 1337
+
+prefix:
+  value: /home/ws/kg2371/datasets/isbi14_challenge
+
+#  This file describes configuration details which are used by all experiments in this example project.
+#  This is done to avoid defining the same variables in multiple places.
+wandb.project_name:
+  value: bmt_unet_vs_maskedrcnn
+# The w&b user or group the project should belong to.
+wandb.entity:
+  value: lucare
+wandb.notes:
+  value: inst_seg
+wandb.tags:
+  value: inst_seg
+# Valid values: online/enabled, offline, disabled
+# online/enabled = default, runs in online mode. Both enabled and online can be used.
+# offline = runs in offline mode, writes all data to disk for later syncing to a server.
+# disabled = makes all calls to wandb api's noop's.
+wandb.mode:
+  value: online
+
+experiment.name:
+  value: first-shot
+
+# Model Configuration
+model.name:
+  value: MaskedRCNN
+model.params.add_not_confident_labels:
+  value: false
+model.params.sample_labels_from_gaussian:
+  value: false
+
+# Post-Processing Distance Maps
+model.params.post_pro.th_cell:
+  value: 0.022
+model.params.post_pro.th_seed:
+  value: 0.25
+model.params.post_pro.do_splitting:
+  value: false
+model.params.post_pro.do_fill_holes:
+  value: false
+model.params.post_pro.sigma_cell:
+  value: 1.00
+model.params.post_pro.do_area_based_filtering:
+  value: false
+model.params.post_pro.valid_area_median_factors:
+  value: [0.25,3]
+
+# Optimizer
+model.optimizer.type:
+  value: Adam
+model.optimizer.params.lr:
+  value: 0.0001032173300324176
+model.optimizer.params.sgd.momentum:
+  value: 0.9
+model.optimizer.params.sgd.weight_decay:
+  value: 0.0005
+
+
+# LR Scheduler
+model.optimizer.lrs.type:
+  value: ReduceLROnPlateau
+model.optimizer.lrs.params.factor:
+  value: 0.5
+model.optimizer.lrs.params.patience:
+  value: 5
+model.optimizer.lrs.params.verbose:
+  value: false
+model.optimizer.lrs.params.cooldown:
+  value: 0
+model.optimizer.lrs.params.min_lr:
+  value: 0.00001
+
+
+# Trainer Configuration
+train.trainer.max_epochs:
+  value: 500
+train.trainer.num_sanity_val_steps:
+  value: 0
+train.trainer.gpus:
+  value: 1
+train.trainer.reload_dataloaders_every_epoch:
+  value: false
+# train.cross_validation.n_splits:
+#   value: 5
+
+# Data Configuration
+data.datamodule.name:
+  value: GenericSegmentationDataModule
+data.datamodule.arguments.class_dir:
+  value: labels
+data.datamodule.arguments.n_classes:
+  value: 1
+data.datamodule.arguments.dataset_size:
+  value: 1.0
+data.datamodule.arguments.initial_labeled_ratio:
+  value: 1.0
+data.datamodule.arguments.val_to_train_ratio:
+  value: 0.2
+data.datamodule.arguments.batch_size:
+  value: 16
+data.datamodule.arguments.num_workers:
+  value: 0
+data.datamodule.arguments.binarize_labels:
+  value: false
+data.datamodule.arguments.sample_filter:
+  value: [Round-2,Negative,Positive]
+data.datamodule.arguments.return_weight_maps:
+  value: false
+
+# Callbacks Configuration
+train.callbacks.save_k_top_models:
+  value: 1
+train.callbacks.early_stopping_enabled:
+  value: true
+train.callbacks.early_stopping_patience:
+  value: 25
+train.callbacks.best_metrics_log_enabled:
+  value: true
+train.callbacks.log_best_metric_dict:
+  value: {"val/loss":"min"}
+train.callbacks.epoch_duration_enabled:
+  value: true
+train.callbacks.log_cka:
+  value: false
+train.callbacks.log_cka_benchmark_model:
+  value: /home/ws/kg2371/lsdf/Daten_Schilling/2022_SSL_experiments/benchmark_model_sl/derma/dnn_weights.ckpt
+train.callbacks.log_weight_updated:
+  value: false
+# train.callbacks.unet_inst_seg_img_log_enabled:
+#   value: true
+
+
+
+# General Augmentations
+# data.img_processing.norm_type:
+#   value: per_image_mean_std
+
+data.img_processing.img_type:
+  value: rgb_8_bit
+data.img_processing.replay_processing_pipeline:
+  value: false
+data.img_processing.img_size:
+  value: [512,512]
